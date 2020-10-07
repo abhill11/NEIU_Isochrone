@@ -3,7 +3,7 @@
 
 <head>
   <meta charset='utf-8' />
-  <title>Get started with the Isochrone API</title>
+  <title>Distance of NEIU Muslim Students to Main Campus</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <!-- Import Mapbox GL JS  -->
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
@@ -72,16 +72,35 @@
   </div>
 
   <script>
-    // Add your Mapbox access token
+// Add GeoJson layer of approximate student locations, this is mapbox style with basemap included
     mapboxgl.accessToken = 'pk.eyJ1IjoiYWJoaWxsMTEiLCJhIjoiY2tlZGZvM3FmMDJvdTJybzdrZXFocjJ6ciJ9.ipkQlb_WIrF-UasYrG7h3Q';
     var map = new mapboxgl.Map({
       container: 'map', // Specify the container ID
-      style: 'mapbox://styles/mapbox/streets-v11', // Specify which map style to use
+      // style: 'mapbox://styles/mapbox/streets-v11', // Specify which map style to use
+      style: 'mapbox://styles/abhill11/ckfyusfwj0nzo19p6squtkdfr',
       center: [-87.7187, 41.9804], // Specify the starting position
-      zoom: 14, // Specify the starting zoom
+      zoom: 9, // Specify the starting zoom
     });
 
-    // // Create variables to use in getIso()
+// add popups to the student points
+    map.on('click', function(e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['m-student-locations']
+  });
+
+  if (!features.length) {
+    return;
+  }
+
+  var feature = features[0];
+
+  var popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML('<b>' + feature.properties.XStreets + '</b><p>' + feature.properties.StreetMiles + ' Miles</p>')
+    .addTo(map);
+});
+
+ // Create variables to use in getIso()
 var urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
 var lon = -87.7187;
 var lat = 41.9804;
@@ -101,6 +120,7 @@ function getIso() {
   })
 };
 
+//NEIU Marker, which is map center
 var marker = new mapboxgl.Marker({
  'color': '#133CF3'
 });
