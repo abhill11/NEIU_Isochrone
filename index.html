@@ -80,8 +80,8 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiYWJoaWxsMTEiLCJhIjoiY2tlZGZvM3FmMDJvdTJybzdrZXFocjJ6ciJ9.ipkQlb_WIrF-UasYrG7h3Q';
     var map = new mapboxgl.Map({
       container: 'map', // Specify the container ID
-      // style: 'mapbox://styles/mapbox/streets-v11', // Specify which map style to use
-      style: 'mapbox://styles/abhill11/ckg0crlsl24fe19nu5cb1fu0u',
+      style: 'mapbox://styles/abhill11/ckg0crlsl24fe19nu5cb1fu0u', // Specify which map style to use
+
       center: [-87.7187, 41.9804], // Specify the starting position
       zoom: 9, // Specify the starting zoom
     });
@@ -89,7 +89,7 @@
 // add popups to the student points
     map.on('click', function(e) {
   var features = map.queryRenderedFeatures(e.point, {
-    layers: ['m-student-locations3']
+    layers: ['m-student-locations-final'] //make sure that this layer matches the layer name in the mapbox style or popups will not display
   });
 
   if (!features.length) {
